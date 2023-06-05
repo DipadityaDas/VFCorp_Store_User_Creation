@@ -95,7 +95,7 @@ def find_brand(report_name: str) -> str:
 
 
 if __name__ == "__main__":
-	dir_path = 'C:\\Projects\\Store_User_Creation\\'
+	dir_path = 'C:\\Projects\\VFCorp_Store_User_Creation\\'
 	user_id = 'FF_SEC_3'
 	incident = 'INC3189547'
 	excel_file = 'Store_User_Creation.xlsx'
