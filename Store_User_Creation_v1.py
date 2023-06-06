@@ -105,11 +105,15 @@ if __name__ == "__main__":
 	reports = [key for key in os.listdir(dir_path) if key.startswith('report')]
 	
 	if reports:
-		print("-------------------------------------------------------------------")
+		print("="*70)
 		print(f"All the Reports of {incident}:")
-		print("-------------------------------------------------------------------\n{0}\n".format("\n".join(reports)))
+		print("-" * 70)
+		for idx, file in enumerate(reports, start=1):
+			print(f"{idx}.  {file}")
+		
+		print("=" * 70)
 		print("Generating Log....")
-		print("-------------------------------------------------------------------")
+		print("-" * 70)
 		
 		for report in reports:
 			brand = find_brand(report)
