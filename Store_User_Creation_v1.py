@@ -51,7 +51,7 @@ def cell_style(sheet: Worksheet) -> None:
 	sheet.sheet_view.zoomScale = 180
 
 
-def role_specific_files(file: str, workbook: Workbook) -> None:
+def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 	"""
 	:rtype: Displays the Company, Report file and the number of roles within the company.
 	"""
@@ -61,7 +61,7 @@ def role_specific_files(file: str, workbook: Workbook) -> None:
 	workbook = create_excel_sheet(workbook)
 	sheet = workbook[brand]
 	
-	df = pd.read_csv(file)
+	df = pd.read_csv(excel_data)
 	df = df[['User Login', 'Email', 'Role']]
 	df = df.sort_values(by=['Role'], ascending=True, ignore_index=True)
 	roles = df['Role'].unique()
