@@ -81,9 +81,11 @@ def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 		temp['USERID'] = role_df['User Login']
 		temp['MANAGER'] = user_id
 		temp['EMAIL'] = role_df['Email']
+		temp['SNC_NAME'] = 'p:CN=#!#USERID#!#'
+		temp['UNSEC_SNC'] = 'Y'
 		temp.to_csv(os.path.join(dir_path, brand, role + '.csv'), index=False)
 	
-	shutil.make_archive(brand, "zip", dir_path + brand)
+	shutil.make_archive(base_name=brand, format='zip', root_dir=dir_path + brand)
 	print(f"[INFO] Found {total_roles} {brand} Business roles.")
 
 
