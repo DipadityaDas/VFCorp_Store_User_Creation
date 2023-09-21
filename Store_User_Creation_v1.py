@@ -61,7 +61,7 @@ def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 	workbook = create_excel_sheet(workbook)
 	sheet = workbook[brand]
 	
-	df = pd.read_csv(excel_data)
+	df = pd.read_csv(dir_path + excel_data)
 	df = df[['User Login', 'Email', 'Role']]
 	df = df.sort_values(by=['Role'], ascending=True, ignore_index=True)
 	roles = df['Role'].unique()
@@ -96,7 +96,7 @@ def find_brand(report_name: str) -> str:
 
 
 if __name__ == "__main__":
-	dir_path = 'C:\\Projects\\VFCorp_Store_User_Creation\\'
+	dir_path = 'C:\\Users\\Dipaditya\\Downloads\\'
 
 	wb = Workbook()
 
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 	
 	if reports:
 		incident = input("Enter the Incident ID : ")
-		excel_file = incident + '_Store_User_Creation.xlsx'
+		excel_file = dir_path + incident + '_Store_User_Creation.xlsx'
 		user_id = input("Enter the PG1 Firefighter ID : ")
 		create_folder(user_id)
 		
@@ -122,8 +122,9 @@ if __name__ == "__main__":
 			brand = find_brand(report)
 			role_specific_files(report, wb)
 			shutil.move(src=dir_path + brand, dst=dir_path + user_id)
-			shutil.make_archive(base_name=user_id, format='zip', root_dir=dir_path + user_id)
-			shutil.rmtree(dir_path + user_id)
+			shutil.make_archive(base_name=dir_path + user_id, format='zip', root_dir=dir_path + user_id)
+		
+		shutil.rmtree(dir_path + user_id)
 
 		del wb[wb.sheetnames[0]]
 		wb.save(excel_file)
