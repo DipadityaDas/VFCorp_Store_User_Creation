@@ -121,10 +121,10 @@ if __name__ == "__main__":
 		for report in reports:
 			brand = find_brand(report)
 			role_specific_files(report, wb)
-			shutil.make_archive(base_name=brand, format='zip', root_dir=dir_path + brand)
-			shutil.move(src=dir_path + brand + '.zip', dst=dir_path + user_id)
-			shutil.rmtree(dir_path + brand)
-		
+			shutil.move(src=dir_path + brand, dst=dir_path + user_id)
+			shutil.make_archive(base_name=user_id, format='zip', root_dir=dir_path + user_id)
+			shutil.rmtree(dir_path + user_id)
+
 		del wb[wb.sheetnames[0]]
 		wb.save(excel_file)
 		print(f"[INFO] Successfully created {excel_file} and {len(reports)} zip files containing Role-Specific files.")
