@@ -85,7 +85,6 @@ def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 		temp['UNSEC_SNC'] = 'Y'
 		temp.to_csv(os.path.join(dir_path, brand, role + '.csv'), index=False)
 	
-	shutil.make_archive(base_name=brand, format='zip', root_dir=dir_path + brand)
 	print(f"[INFO] Found {total_roles} {brand} Business roles.")
 
 
@@ -105,11 +104,11 @@ if __name__ == "__main__":
 	
 	if reports:
 		incident = input("Enter the Incident ID : ")
-		user_id = input("Enter the PG1 Firefighter ID : ")
-		
 		excel_file = incident + '_Store_User_Creation.xlsx'
+		user_id = input("Enter the PG1 Firefighter ID : ")
+		create_folder(user_id)
 		
-		print("="*70)
+		print("=" * 70)
 		print(f"All the Reports of {incident}:")
 		print("-" * 70)
 		for idx, file in enumerate(reports, start=1):
@@ -122,6 +121,9 @@ if __name__ == "__main__":
 		for report in reports:
 			brand = find_brand(report)
 			role_specific_files(report, wb)
+			shutil.make_archive(base_name=brand, format='zip', root_dir=dir_path + brand)
+			shutil.move(src=dir_path + brand + '.zip', dst=dir_path + user_id)
+			shutil.rmtree(dir_path + brand)
 		
 		del wb[wb.sheetnames[0]]
 		wb.save(excel_file)
