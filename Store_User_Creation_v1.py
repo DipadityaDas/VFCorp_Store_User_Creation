@@ -62,7 +62,7 @@ def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 	sheet = workbook[brand]
 	
 	df = pd.read_csv(dir_path + excel_data)
-	df = df[['User Login', 'Email', 'Role']]
+	df = df[['User Login', 'Email', 'Role', 'Prefered First Name', 'Prefered Last Name']]
 	df = df.sort_values(by=['Role'], ascending=True, ignore_index=True)
 	roles = df['Role'].unique()
 	total_roles = roles.size
@@ -81,6 +81,8 @@ def role_specific_files(excel_data: str, workbook: Workbook) -> None:
 		temp['USERID'] = role_df['User Login']
 		temp['MANAGER'] = user_id
 		temp['EMAIL'] = role_df['Email']
+		temp['FNAME'] = role_df['Prefered First Name']
+		temp['LNAME'] = role_df['Prefered Last Name']
 		temp['SNC_NAME'] = 'p:CN=#!#USERID#!#'
 		temp['UNSEC_SNC'] = 'Y'
 		temp.to_csv(os.path.join(dir_path, brand, role + '.csv'), index=False)
@@ -105,8 +107,8 @@ if __name__ == "__main__":
 	if reports:
 		incident = input("Enter the Incident ID : ")
 		excel_file = dir_path + incident + '_Store_User_Creation.xlsx'
-		# user_id = input("Enter the PG1 Firefighter ID : ")
-		
+		user_id = input("Enter the PG1 Firefighter ID : ")
+		create_folder(user_id)
 		print("=" * 70)
 		print(f"All the Reports of {incident}:")
 		print("-" * 70)
@@ -119,18 +121,16 @@ if __name__ == "__main__":
 		
 		users = ['FF_SEC_2', 'FF_SEC_3']
 		
-		for user_id in users:
-			create_folder(user_id)
-			for report in reports:
-				brand = find_brand(report)
-				role_specific_files(report, wb)
-				shutil.move(src=dir_path + brand, dst=dir_path + user_id)
-				shutil.make_archive(base_name=dir_path + user_id, format='zip', root_dir=dir_path + user_id)
-			
-			shutil.rmtree(dir_path + user_id)
-	
-			del wb[wb.sheetnames[0]]
-			wb.save(excel_file)
+		for report in reports:
+			brand = find_brand(report)
+			role_specific_files(report, wb)
+			shutil.move(src=dir_path + brand, dst=dir_path + user_id)
+			shutil.make_archive(base_name=dir_path + user_id, format='zip', root_dir=dir_path + user_id)
+		
+		shutil.rmtree(dir_path + user_id)
+
+		del wb[wb.sheetnames[0]]
+		wb.save(excel_file)
 		print(f"[INFO] Successfully created {excel_file} and {len(reports)} zip files containing Role-Specific files.")
 	else:
 		print(f"[INFO] No report files present in {dir_path}")
