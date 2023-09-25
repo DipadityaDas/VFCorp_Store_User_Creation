@@ -96,8 +96,8 @@ def display_reports():
 	print("-" * 70)
 	for idx, file in enumerate(reports, start=1):
 		print(f"{idx}.  {file}")
-		
-		
+
+
 def generate_logs():
 	print("=" * 70)
 	print("Generating Logs....")
@@ -127,7 +127,7 @@ if __name__ == "__main__":
 				
 				if c == 1:
 					create_excel_sheet()
-					
+				
 				roles_specific_files()
 				
 				shutil.move(src=folder_path + brand, dst=folder_path + user_id)
