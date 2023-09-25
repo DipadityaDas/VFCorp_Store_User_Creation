@@ -26,7 +26,7 @@ def create_excel_sheet(excel_book: Workbook) -> Workbook:
 	ws.merge_cells("A1:A2")
 	ws['A1'] = "No."
 	
-	print(f"[INFO] Created {brand} sheet in the Excel Workbook")
+	print(f"[INFO] Created {brand} sheet in the Excel Workbook for {user_id}")
 	return excel_book
 
 
@@ -105,8 +105,7 @@ if __name__ == "__main__":
 	if reports:
 		incident = input("Enter the Incident ID : ")
 		excel_file = dir_path + incident + '_Store_User_Creation.xlsx'
-		user_id = input("Enter the PG1 Firefighter ID : ")
-		create_folder(user_id)
+		# user_id = input("Enter the PG1 Firefighter ID : ")
 		
 		print("=" * 70)
 		print(f"All the Reports of {incident}:")
@@ -118,16 +117,20 @@ if __name__ == "__main__":
 		print("Generating Log....")
 		print("-" * 70)
 		
-		for report in reports:
-			brand = find_brand(report)
-			role_specific_files(report, wb)
-			shutil.move(src=dir_path + brand, dst=dir_path + user_id)
-			shutil.make_archive(base_name=dir_path + user_id, format='zip', root_dir=dir_path + user_id)
+		users = ['FF_SEC_2', 'FF_SEC_3']
 		
-		shutil.rmtree(dir_path + user_id)
-
-		del wb[wb.sheetnames[0]]
-		wb.save(excel_file)
+		for user_id in users:
+			create_folder(user_id)
+			for report in reports:
+				brand = find_brand(report)
+				role_specific_files(report, wb)
+				shutil.move(src=dir_path + brand, dst=dir_path + user_id)
+				shutil.make_archive(base_name=dir_path + user_id, format='zip', root_dir=dir_path + user_id)
+			
+			shutil.rmtree(dir_path + user_id)
+	
+			del wb[wb.sheetnames[0]]
+			wb.save(excel_file)
 		print(f"[INFO] Successfully created {excel_file} and {len(reports)} zip files containing Role-Specific files.")
 	else:
 		print(f"[INFO] No report files present in {dir_path}")
