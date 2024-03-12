@@ -80,7 +80,7 @@ def roles_specific_files():
 		temp = template_df.copy()
 		temp['USERID'] = role_df['User Login']
 		temp['MANAGER'] = user_id
-		temp['EMAIL'] = role_df['Email']
+		temp['EMAIL'] = role_df['EMAIL']
 		temp['FNAME'] = role_df['Prefered First Name']
 		temp['LNAME'] = role_df['Prefered Last Name']
 		temp['SNC_NAME'] = 'p:CN=#!#USERID#!#'
@@ -111,7 +111,7 @@ if __name__ == "__main__":
 	if reports:
 		incident = input("Enter the Incident ID : ")
 		excel_file = folder_path + incident + '_Store_User_Creation.xlsx'
-		necessary_details = ['User Login', 'Email', 'Role', 'Prefered First Name', 'Prefered Last Name']
+		necessary_details = ['User Login', 'EMAIL', 'Role', 'Prefered First Name', 'Prefered Last Name']
 		ff_ids = ['FF_SEC_1', 'FF_SEC_2', 'FF_SEC_3']
 		
 		display_reports()
